@@ -22,6 +22,7 @@ type Comment struct {
 
 func LoadComment(path string) (*Comment, error) {
 	c := &Comment{}
+	return c, nil
 
 	err := loadBlogFile(path, func(fileInfo os.FileInfo) {
 		c.ModifiedDate = fileInfo.ModTime()
@@ -41,7 +42,7 @@ func LoadComment(path string) (*Comment, error) {
 		bytes := []byte(text)
 
 		c.Body.Markdown = text
-		c.Body.HTML = convertMarkdownToHtml(&bytes)
+		c.Body.HTML = "" // Disable markdown parsing here, just in case.
 	})
 
 	if err != nil {
@@ -52,16 +53,13 @@ func LoadComment(path string) (*Comment, error) {
 }
 
 func NewComment(author, email, body string, isSpam bool) *Comment {
-
-	html := []byte(body)
-
 	c := new(Comment)
 	c.Metadata.Author = author
 	c.Metadata.Email = email
 	c.Metadata.Date = time.Now()
 	c.Metadata.IsSpam = isSpam
 	c.Body.Markdown = body
-	c.Body.HTML = convertMarkdownToHtml(&html)
+	c.Body.HTML = ""
 
 	return c
 }

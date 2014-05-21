@@ -144,6 +144,9 @@ func (b *BlogPost) ContainsTerm(term string) bool {
 }
 
 func (b *BlogPost) AllowsComments() bool {
+	// Disable comments due to security for now.
+	return false
+
 	if b.Metadata.DisallowComments {
 		return false
 	}
@@ -158,6 +161,7 @@ func (b *BlogPost) AllowsComments() bool {
 }
 
 func (b *BlogPost) SaveComment(akismetAPIKey, serverAddress, remoteAddress, userAgent, referrer, author, email, body string) {
+	return ; // Disable comments for now.
 
 	// TODO: Ensure file name is unique
 	isSpam, _ := akismet.IsSpamComment(body, serverAddress, remoteAddress, userAgent, referrer, author, email, akismetAPIKey)

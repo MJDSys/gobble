@@ -8,6 +8,8 @@ import (
 type Comments []*Comment
 
 func LoadComments(path string) (Comments, error) {
+	return Comments{}, nil
+
 	files, err := ioutil.ReadDir(path)
 
 	if err != nil {
